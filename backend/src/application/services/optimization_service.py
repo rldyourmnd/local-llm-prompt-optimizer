@@ -1,5 +1,5 @@
 from ...domain.models import VendorType, OptimizationRequest, OptimizedPrompt
-from ...domain.interfaces import ILLMClient
+from ...domain.interfaces import ILLMClient, IVendorAdapter
 from ...domain.registries import VendorRegistry
 
 
