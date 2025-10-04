@@ -1,14 +1,6 @@
-from typing import Dict
 from ...domain.models import VendorType, OptimizationRequest, OptimizedPrompt
-from ...domain.interfaces import ILLMClient, IVendorAdapter
-from ...domain.vendors import (
-    OpenAIAdapter,
-    ClaudeAdapter,
-    GrokAdapter,
-    GeminiAdapter,
-    QwenAdapter,
-    DeepSeekAdapter
-)
+from ...domain.interfaces import ILLMClient
+from ...domain.registries import VendorRegistry
 
 
 class OptimizationService:
@@ -16,22 +8,12 @@ class OptimizationService:
 
     def __init__(self, llm_client: ILLMClient):
         self.llm_client = llm_client
-        self.adapters: Dict[VendorType, IVendorAdapter] = {
-            VendorType.OPENAI: OpenAIAdapter(),
-            VendorType.CLAUDE: ClaudeAdapter(),
-            VendorType.GROK: GrokAdapter(),
-            VendorType.GEMINI: GeminiAdapter(),
-            VendorType.QWEN: QwenAdapter(),
-            VendorType.DEEPSEEK: DeepSeekAdapter(),
-        }
 
     async def optimize_prompt(self, request: OptimizationRequest) -> OptimizedPrompt:
         """Optimize a prompt for a specific vendor."""
 
-        # Get the vendor-specific adapter
-        adapter = self.adapters.get(request.target_vendor)
-        if not adapter:
-            raise ValueError(f"Unsupported vendor: {request.target_vendor}")
+        # Get vendor adapter from registry
+        adapter = VendorRegistry.get(request.target_vendor)
 
         # Generate optimized prompt using LLM with vendor-specific guidance
         optimized_prompt = await self._generate_base_optimization(request, adapter)
@@ -157,10 +139,8 @@ Generate {num_questions} essential questions to optimize this prompt perfectly."
     ) -> OptimizedPrompt:
         """Optimize prompt with user's answers to clarifying questions."""
 
-        # Get vendor adapter
-        adapter = self.adapters.get(vendor)
-        if not adapter:
-            raise ValueError(f"Unsupported vendor: {vendor}")
+        # Get vendor adapter from registry
+        adapter = VendorRegistry.get(vendor)
 
         # Build Q&A context
         qa_context = "\n".join([
