@@ -1,0 +1,277 @@
+# ============================================================================
+# Local LLM Prompt Optimizer - .gitignore
+# Part of NDDev OpenNetwork | https://nddev.tech
+# ============================================================================
+
+# ===================
+# Development Tools
+# ===================
+.claude/
+CLAUDE.md
+
+# ===================
+# Environment & Secrets
+# ===================
+.env
+.env.local
+.env.*.local
+.env.production
+*.key
+*.pem
+*.p12
+secrets/
+credentials.json
+
+# ===================
+# Python
+# ===================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+pythonenv/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage/
+*.cover
+.hypothesis/
+.pytype/
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ===================
+# Node.js / Frontend
+# ===================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Package managers
+.npm/
+.yarn/
+.pnpm-store/
+pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+
+# ===================
+# IDEs & Editors
+# ===================
+# VSCode
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+*.code-workspace
+
+# JetBrains (PyCharm, WebStorm, IntelliJ IDEA)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw?
+
+# Emacs
+\#*\#
+.\#*
+
+# ===================
+# Operating Systems
+# ===================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ===================
+# Docker
+# ===================
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# ===================
+# Logs
+# ===================
+*.log
+logs/
+log/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===================
+# Databases
+# ===================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+postgres-data/
+pgdata/
+
+# ===================
+# Temporary Files
+# ===================
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.cache
+.cache/
+
+# ===================
+# Project-Specific
+# ===================
+# Build artifacts
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Testing
+test-results/
+playwright-report/
+test-output/
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+site/
+
+# Backup files
+*.backup
+*~
+
+# ===================
+# Miscellaneous
+# ===================
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs
+/site
+
+# Exclude compiled Python files
+*.pyc
+
+# Redis dump
+dump.rdb
+
+# ===================
+# Allow Exceptions
+# ===================
+!.gitkeep
+!.env.example
