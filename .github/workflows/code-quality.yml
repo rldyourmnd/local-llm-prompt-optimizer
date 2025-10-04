@@ -1,0 +1,162 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, dev, develop ]
+  pull_request:
+    branches: [ main, dev, develop ]
+
+jobs:
+  python-code-quality:
+    name: Python Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install radon pylint
+
+      - name: Check code formatting with Black
+        working-directory: ./backend
+        run: |
+          black --check src/ tests/ || echo "Code formatting issues found"
+
+      - name: Flake8 full report
+        working-directory: ./backend
+        run: |
+          flake8 src/ tests/ --count --statistics --format=html --htmldir=flake8-report || true
+
+      - name: Pylint analysis
+        working-directory: ./backend
+        run: |
+          pylint src/ --output-format=text --reports=yes --exit-zero > pylint-report.txt
+          cat pylint-report.txt
+
+      - name: Code complexity analysis (Radon)
+        working-directory: ./backend
+        run: |
+          echo "=== Cyclomatic Complexity ==="
+          radon cc src/ -a -s
+          echo "=== Maintainability Index ==="
+          radon mi src/ -s
+
+      - name: Upload code quality reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: python-quality-reports
+          path: |
+            backend/flake8-report/
+            backend/pylint-report.txt
+
+  sonarcloud-scan:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies and run tests
+        working-directory: ./backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pytest tests/ --cov=src --cov-report=xml --cov-report=term
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=rldyourmnd_local-llm-prompt-optimizer
+            -Dsonar.organization=rldyourmnd
+            -Dsonar.python.coverage.reportPaths=backend/coverage.xml
+            -Dsonar.sources=backend/src,frontend/src
+            -Dsonar.tests=backend/tests
+            -Dsonar.exclusions=**/node_modules/**,**/*.test.ts,**/*.spec.ts
+
+  frontend-code-quality:
+    name: Frontend Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: ESLint analysis
+        working-directory: ./frontend
+        run: |
+          npm run lint -- --output-file eslint-report.json --format json || true
+
+      - name: TypeScript strict check
+        working-directory: ./frontend
+        run: |
+          npx tsc --noEmit --strict || echo "TypeScript strict mode issues found"
+
+      - name: Upload frontend quality reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-quality-reports
+          path: frontend/eslint-report.json
+
+  documentation-quality:
+    name: Documentation Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v17
+        with:
+          globs: '**/*.md'
+          config: '.markdownlint.json'
+        continue-on-error: true
+
+      - name: Validate links in documentation
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.markdown-link-check.json'
+        continue-on-error: true
+
+      - name: Check for outdated documentation
+        run: |
+          echo "Checking README and documentation freshness..."
+          find . -name "*.md" -type f -mtime +90 -print || echo "All documentation is recent"

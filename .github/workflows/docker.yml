@@ -1,0 +1,206 @@
+name: Docker Build & Test
+
+on:
+  push:
+    branches: [ main, dev, develop ]
+  pull_request:
+    branches: [ main, dev, develop ]
+
+jobs:
+  docker-backend:
+    name: Backend Docker Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: local-llm-optimizer-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+      - name: Test backend container
+        run: |
+          docker run --rm -d --name test-backend \
+            -e DATABASE_URL=postgresql://test:test@localhost:5432/test \
+            -e LM_STUDIO_BASE_URL=http://localhost:1234/v1 \
+            -p 8000:8000 \
+            local-llm-optimizer-backend:test
+
+          sleep 5
+
+          # Check if container is running
+          docker ps | grep test-backend
+
+          # Check logs for errors
+          docker logs test-backend
+
+          # Stop container
+          docker stop test-backend
+
+      - name: Scan backend image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: local-llm-optimizer-backend:test
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+  docker-frontend:
+    name: Frontend Docker Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false
+          tags: local-llm-optimizer-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+      - name: Test frontend container
+        run: |
+          docker run --rm -d --name test-frontend \
+            -p 3000:80 \
+            local-llm-optimizer-frontend:test
+
+          sleep 3
+
+          # Check if container is running
+          docker ps | grep test-frontend
+
+          # Test HTTP response
+          curl -f http://localhost:3000 || exit 1
+
+          # Stop container
+          docker stop test-frontend
+
+  docker-telegram-bot:
+    name: Telegram Bot Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build telegram-bot image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./telegram-bot
+          file: ./telegram-bot/Dockerfile
+          push: false
+          tags: local-llm-optimizer-telegram-bot:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  docker-compose-test:
+    name: Docker Compose Integration Test
+    runs-on: ubuntu-latest
+    needs: [docker-backend, docker-frontend, docker-telegram-bot]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create test .env file
+        run: |
+          cat > .env << EOF
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=testpass123
+          POSTGRES_DB=optimizer
+          DATABASE_URL=postgresql://postgres:testpass123@postgres:5432/optimizer
+          REDIS_URL=redis://redis:6379
+          LM_STUDIO_BASE_URL=http://host.docker.internal:1234/v1
+          TELEGRAM_BOT_TOKEN=test_token
+          EOF
+
+      - name: Build all services
+        run: docker-compose build
+
+      - name: Start services
+        run: docker-compose up -d postgres redis backend frontend
+
+      - name: Wait for services
+        run: |
+          sleep 15
+          docker-compose ps
+
+      - name: Check backend health
+        run: |
+          max_attempts=30
+          attempt=0
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f http://localhost:8000/health; then
+              echo "Backend is healthy"
+              break
+            fi
+            echo "Waiting for backend... ($attempt/$max_attempts)"
+            sleep 2
+            attempt=$((attempt + 1))
+          done
+
+      - name: Check frontend
+        run: curl -f http://localhost:3000
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          docker-compose logs backend
+          docker-compose logs frontend
+
+      - name: Cleanup
+        if: always()
+        run: docker-compose down -v
+
+  docker-image-size:
+    name: Check Docker Image Sizes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build all images
+        run: |
+          docker build -t backend:test ./backend
+          docker build -t frontend:test ./frontend
+          docker build -t telegram-bot:test ./telegram-bot
+
+      - name: Check image sizes
+        run: |
+          echo "=== Docker Image Sizes ==="
+          docker images | grep test
+
+          backend_size=$(docker images backend:test --format "{{.Size}}")
+          frontend_size=$(docker images frontend:test --format "{{.Size}}")
+          bot_size=$(docker images telegram-bot:test --format "{{.Size}}")
+
+          echo "Backend: $backend_size"
+          echo "Frontend: $frontend_size"
+          echo "Telegram Bot: $bot_size"
+
+          # Optionally set size limits and fail if exceeded
+          # This helps prevent image bloat over time

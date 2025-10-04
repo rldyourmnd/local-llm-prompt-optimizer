@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev, develop ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, dev, develop ]
 
 jobs:
   backend-lint-test:
@@ -59,13 +59,20 @@ jobs:
         run: |
           mypy src --ignore-missing-imports --no-strict-optional || true
 
-      - name: Run tests
+      - name: Run tests with coverage
         working-directory: ./backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_optimizer
           LM_STUDIO_BASE_URL: http://localhost:1234/v1
         run: |
-          pytest tests/ -v --tb=short || echo "⚠️  Tests not yet fully implemented"
+          pytest tests/ -v --tb=short --cov=src --cov-report=xml --cov-report=term
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./backend/coverage.xml
+          flags: backend
+          fail_ci_if_error: false
 
   frontend-build:
     name: Frontend Build & Lint
