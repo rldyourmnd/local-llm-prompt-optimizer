@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-04
+
+### Added
+- **Dependency Injection Container** using `dependency-injector` library
+- **Vendor Registry Pattern** for dynamic adapter management
+- **Custom Exception Hierarchy** with domain-specific exceptions
+
+### Changed
+- Refactored backend architecture for full SOLID compliance
+- Removed hardcoded vendor adapter instantiation
+- All API routes now use DI container
+- Health endpoint uses dynamic adapter count
+- Version bumped to 1.1.0
+
+### Technical
+- Added `dependency-injector==4.41.0` to requirements
+- Created `backend/src/domain/exceptions.py`
+- Created `backend/src/domain/registries/vendor_registry.py`
+- Created `backend/src/infrastructure/di/container.py`
+- Refactored `OptimizationService` to use Vendor Registry
+- Updated API routes with custom exception handling
+
 ## [1.0.2] - 2025-10-04
 
 ### Added
@@ -85,5 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QUICKSTART.md for rapid onboarding
 - PROJECT_STATUS.md for development roadmap
 
+[1.1.0]: https://github.com/rldyourmnd/local-llm-prompt-optimizer/compare/v1.0.2...v1.1.0
+[1.0.2]: https://github.com/rldyourmnd/local-llm-prompt-optimizer/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/rldyourmnd/local-llm-prompt-optimizer/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/rldyourmnd/local-llm-prompt-optimizer/releases/tag/v1.0.0

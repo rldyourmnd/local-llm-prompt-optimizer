@@ -23,9 +23,9 @@
 Local LLM Prompt Optimizer is a privacy-focused tool for optimizing prompts across multiple LLM vendors using local AI processing. All computations run through LM Studio on your machine—no external API calls or data transmission.
 
 **License:** MIT
-**Version:** 1.0.2
+**Version:** 1.1.0
 **Language:** Python 3.11+, TypeScript
-**Architecture:** Domain-Driven Design with microservices
+**Architecture:** Domain-Driven Design with microservices, Dependency Injection
 
 ### Features
 
@@ -322,9 +322,9 @@ NDDev OpenNetwork provides:
 Local LLM Prompt Optimizer — инструмент для оптимизации промптов для различных LLM-провайдеров с использованием локальной AI-обработки. Все вычисления выполняются через LM Studio на вашей машине без внешних API-запросов и передачи данных.
 
 **Лицензия:** MIT
-**Версия:** 1.0.0
+**Версия:** 1.1.0
 **Язык:** Python 3.11+, TypeScript
-**Архитектура:** Domain-Driven Design с микросервисами
+**Архитектура:** Domain-Driven Design с микросервисами, Dependency Injection
 
 ### Возможности
 
