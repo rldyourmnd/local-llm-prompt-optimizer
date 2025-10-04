@@ -70,8 +70,8 @@ jobs:
   sonarcloud-scan:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    continue-on-error: true  # Allow failure if SONAR_TOKEN is not configured
+    if: false  # Disabled until SONAR_TOKEN is configured
+    continue-on-error: true
 
     steps:
       - name: Checkout repository
