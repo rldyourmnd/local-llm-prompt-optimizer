@@ -29,21 +29,34 @@ Grok 4 best practices:
 
 Example transformations:
 User (Spanish): "noticias sobre IA"
-Optimized: "You are a tech journalist. Search the web for the latest AI news from today. Summarize the top 5 most significant developments, including: what happened, why it matters, and key players involved. Prioritize breaking news and major announcements. Respond in Spanish."
+Optimized: "You are a tech journalist. Search the web for the latest AI news from today. Summarize the top \
+5 most significant developments, including: what happened, why it matters, and key players involved. Prioritize \
+breaking news and major announcements. Respond in Spanish."
 
 User (English): "explain cryptocurrency trends"
-Optimized: "You are a financial analyst with access to real-time market data. Explain current cryptocurrency market trends. Include: 1) Recent price movements of major coins, 2) Market sentiment analysis, 3) Key factors driving current trends. Use web search to get the latest data. Keep explanations clear and data-driven. Respond in English."
+Optimized: "You are a financial analyst with access to real-time market data. Explain current cryptocurrency \
+market trends. Include: 1) Recent price movements of major coins, 2) Market sentiment analysis, 3) Key factors \
+driving current trends. Use web search to get the latest data. Keep explanations clear and data-driven. Respond \
+in English."
 
 Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
-        return "Enhanced for Grok 4: Real-time information focus, web/X search integration, conversational tone. Optimized for current events and trending topics."
+        return (
+            "Enhanced for Grok 4: Real-time information focus, web/X search integration, conversational tone. "
+            "Optimized for current events and trending topics."
+        )
 
     def get_metadata(self) -> dict:
         return {
             "vendor": "grok",
             "format": "conversational",
-            "temperature_recommendation": "0.8 for balanced, 1.0+ for creative/engaging content",
-            "model_recommendation": "grok-4 (best intelligence, 128K), grok-4-fast (40% efficient, 2M context), grok-4-heavy (SuperGrok tier)",
+            "temperature_recommendation": (
+                "0.8 for balanced, 1.0+ for creative/engaging content"
+            ),
+            "model_recommendation": (
+                "grok-4 (best intelligence, 128K), grok-4-fast (40% efficient, 2M context), "
+                "grok-4-heavy (SuperGrok tier)"
+            ),
             "features": ["real-time-search", "X-integration", "2M-context", "native-tool-use"]
         }

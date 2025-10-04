@@ -1,5 +1,5 @@
 from ..interfaces import IVendorAdapter
-from ..models import VendorType, OptimizationRequest, OptimizedPrompt
+from ..models import VendorType
 
 
 class OpenAIAdapter(IVendorAdapter):
@@ -29,21 +29,42 @@ OpenAI GPT-5 best practices:
 
 Example transformation:
 User (Russian): "расскажи про квантовую физику"
-Optimized: "You are a physics professor. Explain quantum physics in simple terms, covering: wave-particle duality, quantum entanglement, and the uncertainty principle. Use analogies to make concepts clear. Keep explanations concise but informative. Respond in Russian."
+Optimized: "You are a physics professor. Explain quantum physics in
+simple terms, covering: wave-particle duality, quantum entanglement,
+and the uncertainty principle. Use analogies to make concepts clear.
+Keep explanations concise but informative. Respond in Russian."
 
 User (English): "explain linear algebra"
-Optimized: "You are a mathematics educator. Explain linear algebra fundamentals including: vectors, matrices, linear transformations, and eigenvalues. Provide intuitive explanations with 1-2 practical examples. Aim for clarity over mathematical rigor. Respond in English."
+Optimized: "You are a mathematics educator. Explain linear algebra
+fundamentals including: vectors, matrices, linear transformations,
+and eigenvalues. Provide intuitive explanations with 1-2 practical
+examples. Aim for clarity over mathematical rigor. Respond in English."
 
 Return ONLY the enhanced prompt - no commentary, no meta-text."""
 
     def get_enhancement_notes(self) -> str:
-        return "Enhanced for OpenAI GPT-5: Clear role definition, structured task breakdown, language-aware optimization. Works best with explicit instructions and step-by-step guidance."
+        return (
+            "Enhanced for OpenAI GPT-5: Clear role definition, "
+            "structured task breakdown, language-aware optimization. "
+            "Works best with explicit instructions and step-by-step "
+            "guidance."
+        )
 
     def get_metadata(self) -> dict:
         return {
             "vendor": "openai",
             "format": "natural-language",
-            "temperature_recommendation": "0.7 for creative tasks, 0.3 for analytical tasks",
-            "model_recommendation": "gpt-5 (best overall), gpt-5-mini (fast & economical), gpt-5-nano (ultra-fast)",
-            "features": ["advanced-reasoning", "web-search", "multimodal", "function-calling"]
+            "temperature_recommendation": (
+                "0.7 for creative tasks, 0.3 for analytical tasks"
+            ),
+            "model_recommendation": (
+                "gpt-5 (best overall), gpt-5-mini (fast & economical), "
+                "gpt-5-nano (ultra-fast)"
+            ),
+            "features": [
+                "advanced-reasoning",
+                "web-search",
+                "multimodal",
+                "function-calling"
+            ]
         }

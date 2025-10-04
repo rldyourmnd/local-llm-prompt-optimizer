@@ -29,21 +29,34 @@ Qwen3 best practices:
 
 Example transformations:
 User (Chinese): "教我编程"
-Optimized: "You are a programming instructor. Teach fundamental programming concepts step-by-step, covering: 1) Variables and data types, 2) Control flow (if/else, loops), 3) Functions, 4) Practical examples in Python. Explain concepts clearly with code examples. For complex topics, think through explanations systematically. Respond in Chinese."
+Optimized: "You are a programming instructor. Teach fundamental programming concepts step-by-step, covering: \
+1) Variables and data types, 2) Control flow (if/else, loops), 3) Functions, 4) Practical examples in Python. \
+Explain concepts clearly with code examples. For complex topics, think through explanations systematically. \
+Respond in Chinese."
 
 User (English): "solve this math problem"
-Optimized: "You are a mathematics tutor. Solve the following problem step-by-step: [problem details]. Show your reasoning at each step, explaining the mathematical principles being applied. Verify your answer. If the problem is complex, use systematic thinking to work through it methodically. Respond in English."
+Optimized: "You are a mathematics tutor. Solve the following problem step-by-step: [problem details]. Show \
+your reasoning at each step, explaining the mathematical principles being applied. Verify your answer. If the \
+problem is complex, use systematic thinking to work through it methodically. Respond in English."
 
 Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
-        return "Enhanced for Qwen3: Hybrid reasoning optimization, multilingual support (especially Chinese), systematic problem-solving. Works best with structured, step-by-step instructions."
+        return (
+            "Enhanced for Qwen3: Hybrid reasoning optimization, multilingual support (especially Chinese), "
+            "systematic problem-solving. Works best with structured, step-by-step instructions."
+        )
 
     def get_metadata(self) -> dict:
         return {
             "vendor": "qwen",
             "format": "structured-reasoning",
-            "temperature_recommendation": "0.3 for math/code, 0.7 for general, 0.8 for creative",
-            "model_recommendation": "qwen3-max (best performance), qwen3-next-80b (cost-efficient), qwen3-thinking-2507 (hybrid reasoning)",
+            "temperature_recommendation": (
+                "0.3 for math/code, 0.7 for general, 0.8 for creative"
+            ),
+            "model_recommendation": (
+                "qwen3-235b (flagship, July 2025), qwen3-30b (cost-efficient), "
+                "qwq-32b (reasoning mode)"
+            ),
             "features": ["multilingual", "hybrid-reasoning", "1M-context", "math-code-excellence"]
         }

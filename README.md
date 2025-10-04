@@ -40,8 +40,8 @@ Local LLM Prompt Optimizer is a privacy-focused tool for optimizing prompts acro
 | Claude | 3.7 Sonnet, 3.5 Haiku | XML tags, thinking blocks, document structure |
 | Grok | Grok 4, Grok 4 Fast, Code Fast 1 | Conversational tone, real-time context |
 | Gemini | 2.5 Pro, 2.5 Flash | Multi-step reasoning, structured formats, long-context |
-| Qwen | Qwen3-235B, Qwen3-30B, QwQ-32B | Multilingual, mathematical reasoning, technical precision |
-| DeepSeek | V3.2-Exp, R1-0528 | Code generation, system design, technical documentation |
+| Qwen | Qwen3-235B (July 2025), Qwen3-30B, QwQ-32B | Multilingual, mathematical reasoning, technical precision |
+| DeepSeek | V3.2-Exp (Sep 2025), R1-0528 (May 2025) | Code generation, system design, technical documentation |
 
 ### Architecture
 
@@ -339,8 +339,8 @@ Local LLM Prompt Optimizer — инструмент для оптимизаци�
 | Claude | 3.7 Sonnet, 3.5 Haiku | XML-теги, блоки мышления, структура документов |
 | Grok | Grok 4, Grok 4 Fast, Code Fast 1 | Разговорный тон, real-time контекст |
 | Gemini | 2.5 Pro, 2.5 Flash | Многошаговое рассуждение, структурированные форматы, длинный контекст |
-| Qwen | Qwen3-235B, Qwen3-30B, QwQ-32B | Мультиязычность, математическое рассуждение, техническая точность |
-| DeepSeek | V3.2-Exp, R1-0528 | Генерация кода, системный дизайн, техническая документация |
+| Qwen | Qwen3-235B (Июль 2025), Qwen3-30B, QwQ-32B | Мультиязычность, математическое рассуждение, техническая точность |
+| DeepSeek | V3.2-Exp (Сен 2025), R1-0528 (Май 2025) | Генерация кода, системный дизайн, техническая документация |
 
 ### Архитектура
 

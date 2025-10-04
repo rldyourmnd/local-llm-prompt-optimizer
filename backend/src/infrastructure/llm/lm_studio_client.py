@@ -1,5 +1,5 @@
 import httpx
-from typing import List, Dict, Optional
+from typing import List, Dict
 from ...domain.interfaces import ILLMClient
 from ..config import settings
 

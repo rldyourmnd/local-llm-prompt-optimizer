@@ -29,21 +29,35 @@ DeepSeek V3.2 best practices:
 
 Example transformations:
 User (Korean): "알고리즘 최적화"
-Optimized: "You are a senior software engineer specializing in algorithm optimization. Analyze the given algorithm and optimize it for: 1) Time complexity, 2) Space complexity, 3) Code readability. Provide the optimized implementation with detailed comments explaining improvements. Include complexity analysis (Big-O notation). For complex optimizations, think through trade-offs systematically. Respond in Korean."
+Optimized: "You are a senior software engineer specializing in algorithm optimization. Analyze the given \
+algorithm and optimize it for: 1) Time complexity, 2) Space complexity, 3) Code readability. Provide the \
+optimized implementation with detailed comments explaining improvements. Include complexity analysis (Big-O \
+notation). For complex optimizations, think through trade-offs systematically. Respond in Korean."
 
 User (English): "design a database schema"
-Optimized: "You are a database architect. Design a normalized database schema for [use case]. Include: 1) Entity-relationship diagram description, 2) Table definitions with primary/foreign keys, 3) Indexing strategy, 4) Justification for design decisions. Consider scalability and query performance. Think through normalization trade-offs. Respond in English."
+Optimized: "You are a database architect. Design a normalized database schema for [use case]. Include: \
+1) Entity-relationship diagram description, 2) Table definitions with primary/foreign keys, 3) Indexing \
+strategy, 4) Justification for design decisions. Consider scalability and query performance. Think through \
+normalization trade-offs. Respond in English."
 
 Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
-        return "Enhanced for DeepSeek V3.2: Technical precision, code optimization focus, dual-mode reasoning. Best for programming, algorithms, and system design tasks."
+        return (
+            "Enhanced for DeepSeek V3.2: Technical precision, code optimization focus, dual-mode reasoning. "
+            "Best for programming, algorithms, and system design tasks."
+        )
 
     def get_metadata(self) -> dict:
         return {
             "vendor": "deepseek",
             "format": "technical-structured",
-            "temperature_recommendation": "0.1-0.3 for code, 0.5 for technical writing, 0.7 for general",
-            "model_recommendation": "deepseek-v3.2-exp (latest, 50% cheaper), deepseek-v3.1-terminus (thinking/non-thinking), deepseek-r1 (advanced reasoning)",
+            "temperature_recommendation": (
+                "0.1-0.3 for code, 0.5 for technical writing, 0.7 for general"
+            ),
+            "model_recommendation": (
+                "deepseek-v3.2-exp (Sep 29, 2025, thinking/non-thinking modes), "
+                "deepseek-r1-0528 (May 28, 2025, advanced reasoning)"
+            ),
             "features": ["code-generation", "math-excellence", "DSA-sparse-attention", "128K-context", "MIT-licensed"]
         }

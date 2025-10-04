@@ -97,25 +97,27 @@ Provide an improved version of this prompt optimized for {request.target_vendor.
     ) -> list[str]:
         """Generate clarifying questions for Think Mode."""
 
-        system_message = f"""You are an expert prompt engineer. Generate exactly {num_questions} clarifying questions to better understand the user's intent and create the perfect prompt.
-
-CRITICAL RULES:
-- DETECT the language of the user's original prompt
-- Generate questions in THE SAME LANGUAGE as the user's prompt
-- Ask questions that will significantly improve the final prompt
-- Focus on: user's knowledge level, specific goals, preferred format, depth of detail, context
-- Questions should be concise and specific
-- Return ONLY the questions, numbered 1-{num_questions}
-- Each question on a new line
-- No additional text or explanations
-
-Example:
-If user's prompt is in Russian: "расскажи про физику"
-Generate questions in Russian: "1. Какой у вас текущий уровень знаний физики?"
-
-If user's prompt is in English: "tell me about physics"
-Generate questions in English: "1. What is your current knowledge level in physics?"
-"""
+        system_message = (
+            f"You are an expert prompt engineer. Generate exactly {num_questions} clarifying questions to "
+            f"better understand the user's intent and create the perfect prompt.\n"
+            "\n"
+            "CRITICAL RULES:\n"
+            "- DETECT the language of the user's original prompt\n"
+            "- Generate questions in THE SAME LANGUAGE as the user's prompt\n"
+            "- Ask questions that will significantly improve the final prompt\n"
+            "- Focus on: user's knowledge level, specific goals, preferred format, depth of detail, context\n"
+            "- Questions should be concise and specific\n"
+            f"- Return ONLY the questions, numbered 1-{num_questions}\n"
+            "- Each question on a new line\n"
+            "- No additional text or explanations\n"
+            "\n"
+            "Example:\n"
+            'If user\'s prompt is in Russian: "расскажи про физику"\n'
+            'Generate questions in Russian: "1. Какой у вас текущий уровень знаний физики?"\n'
+            "\n"
+            'If user\'s prompt is in English: "tell me about physics"\n'
+            'Generate questions in English: "1. What is your current knowledge level in physics?"\n'
+        )
 
         user_message = f"""User's original prompt: "{prompt}"
 Target vendor: {vendor.value}
@@ -166,11 +168,14 @@ Generate {num_questions} essential questions to optimize this prompt perfectly."
             for q, a in zip(questions, answers)
         ])
 
-        system_message = f"""You are an expert prompt engineer. Create the PERFECT optimized prompt using the user's answers to clarifying questions.
-
-{adapter.get_system_instructions()}
-
-Use the Q&A to deeply understand what the user wants and create an ideal prompt."""
+        system_message = (
+            f"You are an expert prompt engineer. Create the PERFECT optimized prompt using the user's "
+            f"answers to clarifying questions.\n"
+            f"\n"
+            f"{adapter.get_system_instructions()}\n"
+            f"\n"
+            f"Use the Q&A to deeply understand what the user wants and create an ideal prompt."
+        )
 
         user_message = f"""Original prompt: "{prompt}"
 Target vendor: {vendor.value}
@@ -197,6 +202,9 @@ Create the PERFECT optimized prompt for {vendor.value} based on all this informa
             original=prompt,
             optimized=optimized_prompt.strip(),
             vendor=vendor,
-            enhancement_notes=f"{adapter.get_enhancement_notes()} Enhanced with {len(questions)} clarifying questions for precision.",
+            enhancement_notes=(
+                f"{adapter.get_enhancement_notes()} Enhanced with {len(questions)} clarifying questions "
+                f"for precision."
+            ),
             metadata=adapter.get_metadata()
         )

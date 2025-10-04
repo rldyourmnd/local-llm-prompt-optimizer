@@ -29,7 +29,11 @@ Claude Sonnet 4.5 best practices:
 
 Example transformations:
 User (Russian): "напиши код для сортировки массива"
-Optimized: "You are an expert programmer. Write a clean, efficient implementation of an array sorting algorithm. Include: 1) The main sorting function, 2) Time complexity analysis, 3) A usage example with sample data. Use clear variable names and add brief comments. Respond in Russian."
+Optimized: "You are an expert programmer. Write a clean, efficient
+implementation of an array sorting algorithm. Include: 1) The main
+sorting function, 2) Time complexity analysis, 3) A usage example
+with sample data. Use clear variable names and add brief comments.
+Respond in Russian."
 
 User (English - complex task): "analyze this business proposal"
 Optimized: "<task>You are a business analyst. Analyze the following business proposal.</task>
@@ -50,13 +54,27 @@ Respond in English."
 Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
-        return "Enhanced for Claude Sonnet 4.5: Conversational tone with optional XML structure for complex tasks. Optimized for detailed analysis, code generation, and autonomous work."
+        return (
+            "Enhanced for Claude Sonnet 4.5: Conversational tone with "
+            "optional XML structure for complex tasks. Optimized for "
+            "detailed analysis, code generation, and autonomous work."
+        )
 
     def get_metadata(self) -> dict:
         return {
             "vendor": "claude",
             "format": "conversational-with-xml",
-            "temperature_recommendation": "1.0 for creative tasks, 0.3 for analytical tasks",
-            "model_recommendation": "claude-sonnet-4-5 (best for coding & agents), claude-opus-4 (complex reasoning)",
-            "features": ["long-context", "xml-native", "autonomous-agents", "computer-use"]
+            "temperature_recommendation": (
+                "1.0 for creative tasks, 0.3 for analytical tasks"
+            ),
+            "model_recommendation": (
+                "claude-sonnet-4-5 (best for coding & agents), "
+                "claude-opus-4 (complex reasoning)"
+            ),
+            "features": [
+                "long-context",
+                "xml-native",
+                "autonomous-agents",
+                "computer-use"
+            ]
         }
