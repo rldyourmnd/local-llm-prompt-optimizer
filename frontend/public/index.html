@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local LLM Prompt Optimizer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 30px; }
+        label { display: block; margin: 20px 0 8px; font-weight: 600; color: #444; }
+        textarea, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; }
+        textarea { min-height: 120px; resize: vertical; }
+        textarea:focus, select:focus { outline: none; border-color: #667eea; }
+        button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; width: 100%; transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .result { margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; display: none; }
+        .result.show { display: block; }
+        .result h3 { color: #333; margin-bottom: 15px; }
+        .result pre { background: white; padding: 15px; border-radius: 5px; overflow-x: auto; white-space: pre-wrap; border: 1px solid #ddd; }
+        .copy-btn { background: #667eea; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        .copy-btn:hover { background: #5568d3; }
+        .info-box { background: #e8f4f8; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #667eea; }
+        .info-box p { margin: 5px 0; color: #555; font-size: 14px; }
+        .notification { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; border-radius: 5px; margin-top: 15px; font-size: 13px; }
+        .credits { text-align: center; margin-top: 20px; color: #666; font-size: 14px; }
+        .loading { text-align: center; padding: 20px; display: none; }
+        .loading.show { display: block; }
+        .error { background: #fee; color: #c33; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
+        .error.show { display: block; }
+        .think-mode { margin-top: 20px; padding: 20px; background: #f0f7ff; border-radius: 8px; border: 2px dashed #667eea; }
+        .think-mode h3 { color: #667eea; margin-bottom: 15px; font-size: 18px; }
+        .think-mode-buttons { display: flex; gap: 10px; margin-top: 15px; }
+        .think-btn { flex: 1; background: white; color: #667eea; border: 2px solid #667eea; padding: 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .think-btn:hover { background: #667eea; color: white; }
+        .think-btn.active { background: #667eea; color: white; }
+        .questions-container { margin-top: 20px; display: none; }
+        .questions-container.show { display: block; }
+        .question-item { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #667eea; }
+        .question-item label { margin: 0 0 8px; color: #667eea; font-weight: 600; }
+        .question-item input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px; }
+        .progress-info { text-align: center; color: #667eea; font-weight: 600; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Local LLM Prompt Optimizer</h1>
+        <p class="subtitle">Optimize your prompts for different LLM vendors with AI-powered enhancements</p>
+
+        <label for="prompt">Your Prompt</label>
+        <textarea id="prompt" placeholder="Enter the prompt you want to optimize..."></textarea>
+
+        <label for="vendor">Target Vendor</label>
+        <select id="vendor">
+            <option value="openai">OpenAI (GPT-4o, o1, o3-mini, o4-mini)</option>
+            <option value="claude">Claude (3.7 Sonnet, 3.5 Haiku)</option>
+            <option value="grok">Grok (Grok 4, Grok 4 Fast, Code Fast 1)</option>
+            <option value="gemini">Gemini (2.5 Pro, 2.5 Flash)</option>
+            <option value="qwen">Qwen (Qwen3-235B, Qwen3-30B, QwQ-32B)</option>
+            <option value="deepseek">DeepSeek (V3.2-Exp, R1-0528)</option>
+        </select>
+
+        <div class="think-mode">
+            <h3>🧠 Think Mode - Get Personalized Optimization</h3>
+            <p style="color: #666; margin-bottom: 10px; font-size: 14px;">
+                Answer clarifying questions to create the perfect prompt tailored to your needs
+            </p>
+            <div class="think-mode-buttons">
+                <button class="think-btn" onclick="enableThinkMode(5)">5 Questions</button>
+                <button class="think-btn" onclick="enableThinkMode(10)">10 Questions</button>
+                <button class="think-btn" onclick="enableThinkMode(25)">25 Questions</button>
+            </div>
+        </div>
+
+        <div class="questions-container" id="questions-container">
+            <div class="progress-info" id="progress-info"></div>
+            <div id="questions-list"></div>
+            <button onclick="submitAnswers()">Submit Answers & Optimize</button>
+        </div>
+
+        <button onclick="optimizePrompt()">Optimize Prompt (Quick Mode)</button>
+
+        <div class="loading" id="loading">⏳ Optimizing your prompt...</div>
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <h3>✅ Optimized Prompt - Ready to Copy!</h3>
+            <pre id="optimized"></pre>
+            <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
+
+            <div class="info-box">
+                <h4 style="margin-top: 0;">📊 Recommendations</h4>
+                <p id="recommendations"></p>
+                <h4 style="margin-top: 15px;">📝 Enhancement Notes</h4>
+                <p id="notes"></p>
+            </div>
+
+            <div class="notification">
+                🤖 Optimized by <strong>Local LLM Prompt Optimizer</strong> |
+                Created by <a href="https://t.me/Danil_Silantyev" target="_blank">Danil Silantyev</a> |
+                <a href="https://t.me/DevsOpenNetwork" target="_blank">DevsOpenNetwork</a>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>Built by <strong>Danil Silantyev</strong> (<a href="https://t.me/Danil_Silantyev" target="_blank">@Danil_Silantyev</a>) | <a href="https://t.me/DevsOpenNetwork" target="_blank"><strong>DevsOpenNetwork</strong></a> | <a href="https://nddev.tech" target="_blank">nddev.tech</a></p>
+        </div>
+    </div>
+
+    <script>
+        async function optimizePrompt() {
+            const prompt = document.getElementById('prompt').value.trim();
+            const vendor = document.getElementById('vendor').value;
+
+            if (!prompt) {
+                alert('Please enter a prompt');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+
+            loading.classList.add('show');
+            error.classList.remove('show');
+            result.classList.remove('show');
+
+            try {
+                const response = await fetch('http://localhost:8000/api/optimize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt, vendor })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Optimization failed. Please check if LM Studio is running.');
+                }
+
+                const data = await response.json();
+
+                document.getElementById('optimized').textContent = data.optimized;
+                document.getElementById('notes').textContent = data.enhancement_notes;
+                document.getElementById('recommendations').innerHTML =
+                    `<strong>Vendor:</strong> ${data.vendor.toUpperCase()}<br>` +
+                    `<strong>Model:</strong> ${data.metadata.model_recommendation || 'N/A'}<br>` +
+                    `<strong>Temperature:</strong> ${data.metadata.temperature_recommendation || 'N/A'}<br>` +
+                    `<strong>Format:</strong> ${data.metadata.format || 'N/A'}`;
+
+                result.classList.add('show');
+            } catch (err) {
+                error.textContent = err.message;
+                error.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
+            }
+        }
+
+        function copyPrompt(event) {
+            const promptText = document.getElementById('optimized').textContent;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        let currentQuestions = [];
+
+        async function enableThinkMode(numQuestions) {
+            const prompt = document.getElementById('prompt').value.trim();
+            const vendor = document.getElementById('vendor').value;
+
+            if (!prompt) {
+                alert('Please enter a prompt first');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const questionsContainer = document.getElementById('questions-container');
+
+            loading.classList.add('show');
+            error.classList.remove('show');
+
+            try {
+                const response = await fetch('http://localhost:8000/api/think/generate-questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt, vendor, num_questions: numQuestions })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate questions. Please check if LM Studio is running.');
+                }
+
+                const data = await response.json();
+                currentQuestions = data.questions;
+
+                // Display questions
+                const questionsList = document.getElementById('questions-list');
+                const progressInfo = document.getElementById('progress-info');
+
+                progressInfo.textContent = `Answer ${data.total} questions to get the perfect prompt`;
+
+                questionsList.innerHTML = currentQuestions.map((question, index) => `
+                    <div class="question-item">
+                        <label>Question ${index + 1} of ${data.total}</label>
+                        <p style="margin-bottom: 10px; color: #333;">${question}</p>
+                        <input type="text" id="answer-${index}" placeholder="Your answer..." />
+                    </div>
+                `).join('');
+
+                questionsContainer.classList.add('show');
+                questionsContainer.scrollIntoView({ behavior: 'smooth' });
+            } catch (err) {
+                error.textContent = err.message;
+                error.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
+            }
+        }
+
+        async function submitAnswers() {
+            const prompt = document.getElementById('prompt').value.trim();
+            const vendor = document.getElementById('vendor').value;
+
+            // Collect answers
+            const answers = currentQuestions.map((_, index) => {
+                return document.getElementById(`answer-${index}`).value.trim();
+            });
+
+            // Validate all answers are filled
+            if (answers.some(a => !a)) {
+                alert('Please answer all questions');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+
+            loading.classList.add('show');
+            error.classList.remove('show');
+            result.classList.remove('show');
+
+            try {
+                const response = await fetch('http://localhost:8000/api/think/optimize-with-answers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt,
+                        vendor,
+                        questions: currentQuestions,
+                        answers
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Optimization failed. Please check if LM Studio is running.');
+                }
+
+                const data = await response.json();
+
+                document.getElementById('optimized').textContent = data.optimized;
+                document.getElementById('notes').textContent = data.enhancement_notes;
+                document.getElementById('recommendations').innerHTML =
+                    `<strong>Vendor:</strong> ${data.vendor.toUpperCase()}<br>` +
+                    `<strong>Model:</strong> ${data.metadata.model_recommendation || 'N/A'}<br>` +
+                    `<strong>Temperature:</strong> ${data.metadata.temperature_recommendation || 'N/A'}<br>` +
+                    `<strong>Format:</strong> ${data.metadata.format || 'N/A'}`;
+
+                result.classList.add('show');
+                result.scrollIntoView({ behavior: 'smooth' });
+
+                // Hide questions container
+                document.getElementById('questions-container').classList.remove('show');
+            } catch (err) {
+                error.textContent = err.message;
+                error.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>

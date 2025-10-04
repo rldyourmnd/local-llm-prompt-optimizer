@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-sm border border-gray-200;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-primary-50 to-blue-50;
+  }
+}
