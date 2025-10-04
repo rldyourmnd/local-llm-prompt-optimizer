@@ -34,7 +34,8 @@ class OptimizationService:
     ) -> str:
         """Generate base optimization using LLM."""
 
-        system_message = f"""You are an expert prompt engineer. Your task is to improve user prompts for LLM interactions.
+        system_message = f"""You are an expert prompt engineer. \
+Your task is to improve user prompts for LLM interactions.
 
 {adapter.get_system_instructions()}
 

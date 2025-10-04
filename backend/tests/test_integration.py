@@ -121,6 +121,7 @@ async def test_cors_headers(async_client: AsyncClient):
     response = await async_client.options("/api/optimize")
     # CORS headers should be present
     # Note: AsyncClient may not fully simulate CORS preflight
+    assert response.status_code in [200, 405]  # OPTIONS may not be implemented
 
 
 @pytest.mark.asyncio

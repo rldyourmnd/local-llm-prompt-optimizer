@@ -1,6 +1,6 @@
 """Tests for vendor-specific adapters."""
 import pytest
-from src.domain.models import VendorType, OptimizationRequest, OptimizedPrompt
+from src.domain.models import VendorType
 from src.domain.vendors import (
     OpenAIAdapter,
     ClaudeAdapter,

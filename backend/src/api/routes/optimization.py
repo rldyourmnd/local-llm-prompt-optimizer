@@ -1,7 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends
 from ...application.services import OptimizationService
 from ...domain.models import OptimizationRequest as DomainOptimizationRequest
-from ...domain.exceptions import VendorNotSupportedException, OptimizationFailedException, QuestionGenerationFailedException
+from ...domain.exceptions import (
+    VendorNotSupportedException,
+    OptimizationFailedException,
+    QuestionGenerationFailedException
+)
 from ..schemas import (
     OptimizeRequest,
     OptimizeResponse,

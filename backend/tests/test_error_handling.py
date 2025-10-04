@@ -4,17 +4,11 @@ from httpx import AsyncClient
 from unittest.mock import AsyncMock
 from src.application.services import OptimizationService
 from src.domain.models import VendorType
-from src.domain.exceptions import (
-    VendorNotSupportedException,
-    OptimizationFailedException,
-    QuestionGenerationFailedException
-)
 
 
 @pytest.mark.asyncio
 async def test_optimize_endpoint_vendor_not_supported_error(async_client: AsyncClient):
     """Test optimization endpoint handles VendorNotSupportedException."""
-    from src.api.main import app
     from src.domain.registries import VendorRegistry
 
     # Temporarily clear registry to simulate unsupported vendor
@@ -61,11 +55,11 @@ async def test_optimize_endpoint_value_error():
 @pytest.mark.asyncio
 async def test_generate_questions_endpoint_failure(async_client: AsyncClient):
     """Test question generation endpoint handles failures."""
-    from src.api.main import app
+    from src.api.main import app as fastapi_app
 
     # Override mock to raise exception
-    original_generate = app.container.llm_client().generate
-    app.container.llm_client().generate = AsyncMock(
+    original_generate = fastapi_app.container.llm_client().generate
+    fastapi_app.container.llm_client().generate = AsyncMock(
         side_effect=Exception("LLM generation failed")
     )
 
@@ -85,7 +79,7 @@ async def test_generate_questions_endpoint_failure(async_client: AsyncClient):
         assert "detail" in data
     finally:
         # Restore original mock
-        app.container.llm_client().generate = original_generate
+        fastapi_app.container.llm_client().generate = original_generate
 
 
 @pytest.mark.asyncio
@@ -110,7 +104,6 @@ async def test_optimize_with_answers_endpoint_value_error(async_client: AsyncCli
 @pytest.mark.asyncio
 async def test_optimize_with_answers_vendor_not_supported(async_client: AsyncClient):
     """Test optimize with answers handles unsupported vendor."""
-    from src.api.main import app
     from src.domain.registries import VendorRegistry
 
     saved_adapters = VendorRegistry._adapters.copy()

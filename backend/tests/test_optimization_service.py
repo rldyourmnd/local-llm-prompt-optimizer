@@ -1,6 +1,6 @@
 """Tests for optimization service."""
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 from src.application.services import OptimizationService
 from src.domain.models import VendorType, OptimizationRequest, OptimizedPrompt
 

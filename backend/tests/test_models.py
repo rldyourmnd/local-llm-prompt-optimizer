@@ -1,5 +1,4 @@
 """Tests for domain models."""
-import pytest
 from src.domain.models import (
     VendorType,
     OptimizationRequest,
