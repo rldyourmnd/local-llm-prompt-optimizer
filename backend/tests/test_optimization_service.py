@@ -174,3 +174,151 @@ async def test_optimize_all_vendors(vendor):
     assert result.vendor == vendor
     assert isinstance(result, OptimizedPrompt)
     assert result.original == "Test prompt"
+
+
+@pytest.mark.asyncio
+async def test_generate_questions_success():
+    """Test successful question generation for Think Mode."""
+    mock_client = AsyncMock()
+    mock_client.generate = AsyncMock(return_value="""1. What is your current knowledge level?
+2. What is your main goal?
+3. What format do you prefer?
+4. How much detail do you need?
+5. What is the context?""")
+
+    service = OptimizationService(mock_client)
+    questions = await service.generate_questions(
+        prompt="Explain quantum physics",
+        vendor=VendorType.OPENAI,
+        num_questions=5
+    )
+
+    assert len(questions) == 5
+    assert "What is your current knowledge level?" in questions[0]
+    mock_client.generate.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_generate_questions_with_different_counts():
+    """Test question generation with different counts (5, 10, 25)."""
+    mock_client = AsyncMock()
+    mock_response = "\n".join([f"{i}. Question {i}" for i in range(1, 26)])
+    mock_client.generate = AsyncMock(return_value=mock_response)
+
+    service = OptimizationService(mock_client)
+
+    for num in [5, 10, 25]:
+        questions = await service.generate_questions(
+            prompt="Test prompt",
+            vendor=VendorType.CLAUDE,
+            num_questions=num
+        )
+        assert len(questions) == num
+
+
+@pytest.mark.asyncio
+async def test_generate_questions_parsing():
+    """Test question parsing handles various formats."""
+    mock_client = AsyncMock()
+    # Test with different numbering styles
+    mock_client.generate = AsyncMock(return_value="""1. First question
+2) Second question
+- Third question
+• Fourth question
+5. Fifth question""")
+
+    service = OptimizationService(mock_client)
+    questions = await service.generate_questions(
+        prompt="Test",
+        vendor=VendorType.GEMINI,
+        num_questions=5
+    )
+
+    assert len(questions) == 5
+    assert "First question" in questions[0]
+    assert "Second question" in questions[1]
+    assert "Third question" in questions[2]
+
+
+@pytest.mark.asyncio
+async def test_optimize_with_answers_success():
+    """Test optimization with user answers to questions."""
+    mock_client = AsyncMock()
+    mock_client.generate = AsyncMock(return_value="Perfectly optimized prompt based on answers")
+
+    service = OptimizationService(mock_client)
+    questions = [
+        "What is your knowledge level?",
+        "What is your main goal?",
+        "What format do you prefer?"
+    ]
+    answers = [
+        "Beginner",
+        "Learn the basics",
+        "Step-by-step tutorial"
+    ]
+
+    result = await service.optimize_with_answers(
+        prompt="Teach me Python",
+        vendor=VendorType.OPENAI,
+        questions=questions,
+        answers=answers
+    )
+
+    assert isinstance(result, OptimizedPrompt)
+    assert result.vendor == VendorType.OPENAI
+    assert result.original == "Teach me Python"
+    assert len(result.optimized) > 0
+    assert "clarifying questions" in result.enhancement_notes
+    mock_client.generate.assert_called_once()
+
+    # Verify Q&A was included in the prompt
+    call_kwargs = mock_client.generate.call_args[1]
+    messages = call_kwargs["messages"]
+    user_message = messages[1]["content"]
+    assert "What is your knowledge level?" in user_message
+    assert "Beginner" in user_message
+
+
+@pytest.mark.asyncio
+async def test_optimize_with_answers_with_context():
+    """Test optimization with answers and additional context."""
+    mock_client = AsyncMock()
+    mock_client.generate = AsyncMock(return_value="Optimized with context and answers")
+
+    service = OptimizationService(mock_client)
+    questions = ["Question 1?"]
+    answers = ["Answer 1"]
+
+    result = await service.optimize_with_answers(
+        prompt="Test prompt",
+        vendor=VendorType.CLAUDE,
+        questions=questions,
+        answers=answers,
+        context="For educational purposes"
+    )
+
+    assert isinstance(result, OptimizedPrompt)
+    call_kwargs = mock_client.generate.call_args[1]
+    messages = call_kwargs["messages"]
+    user_message = messages[1]["content"]
+    assert "For educational purposes" in user_message
+
+
+@pytest.mark.asyncio
+async def test_optimize_with_answers_uses_adapter():
+    """Test that optimize_with_answers uses vendor adapter correctly."""
+    mock_client = AsyncMock()
+    mock_client.generate = AsyncMock(return_value="Adapter-enhanced optimization")
+
+    service = OptimizationService(mock_client)
+    result = await service.optimize_with_answers(
+        prompt="Test",
+        vendor=VendorType.DEEPSEEK,
+        questions=["Q1?"],
+        answers=["A1"]
+    )
+
+    assert result.vendor == VendorType.DEEPSEEK
+    assert result.metadata is not None
+    assert result.enhancement_notes is not None
