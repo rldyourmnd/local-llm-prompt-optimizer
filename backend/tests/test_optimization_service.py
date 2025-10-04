@@ -7,18 +7,20 @@ from src.domain.models import VendorType, OptimizationRequest, OptimizedPrompt
 
 @pytest.mark.asyncio
 async def test_optimization_service_initialization():
-    """Test optimization service initializes with all adapters."""
+    """Test optimization service initializes correctly."""
+    from src.domain.registries import VendorRegistry
+
     mock_client = AsyncMock()
     service = OptimizationService(mock_client)
 
     assert service.llm_client == mock_client
-    assert len(service.adapters) == 6
-    assert VendorType.OPENAI in service.adapters
-    assert VendorType.CLAUDE in service.adapters
-    assert VendorType.GROK in service.adapters
-    assert VendorType.GEMINI in service.adapters
-    assert VendorType.QWEN in service.adapters
-    assert VendorType.DEEPSEEK in service.adapters
+    # In v1.1.0, adapters are managed by VendorRegistry, not OptimizationService
+    assert VendorRegistry.is_registered(VendorType.OPENAI)
+    assert VendorRegistry.is_registered(VendorType.CLAUDE)
+    assert VendorRegistry.is_registered(VendorType.GROK)
+    assert VendorRegistry.is_registered(VendorType.GEMINI)
+    assert VendorRegistry.is_registered(VendorType.QWEN)
+    assert VendorRegistry.is_registered(VendorType.DEEPSEEK)
 
 
 @pytest.mark.asyncio
@@ -69,20 +71,28 @@ async def test_optimize_prompt_with_context():
 @pytest.mark.asyncio
 async def test_optimize_prompt_unsupported_vendor():
     """Test optimization with unsupported vendor raises error."""
+    from src.domain.registries import VendorRegistry
+    from src.domain.exceptions import VendorNotSupportedException
+
     mock_client = AsyncMock()
     service = OptimizationService(mock_client)
 
-    # Create a request with an invalid vendor (this shouldn't normally happen with enums)
-    # We'll test by removing the adapter
-    service.adapters.clear()
+    # In v1.1.0, we need to clear the VendorRegistry to simulate unsupported vendor
+    # Save current state and restore after test
+    saved_adapters = VendorRegistry._adapters.copy()
+    VendorRegistry.clear()
 
-    request = OptimizationRequest(
-        original_prompt="Test",
-        target_vendor=VendorType.OPENAI
-    )
+    try:
+        request = OptimizationRequest(
+            original_prompt="Test",
+            target_vendor=VendorType.OPENAI
+        )
 
-    with pytest.raises(ValueError, match="Unsupported vendor"):
-        await service.optimize_prompt(request)
+        with pytest.raises(VendorNotSupportedException):
+            await service.optimize_prompt(request)
+    finally:
+        # Restore registry state
+        VendorRegistry._adapters = saved_adapters
 
 
 @pytest.mark.asyncio
