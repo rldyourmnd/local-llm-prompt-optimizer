@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     # Application
     app_env: str = "development"
-    app_host: str = "0.0.0.0"
+    app_host: str = "0.0.0.0"  # nosec B104 - Required for Docker container networking
     app_port: int = 8000
     log_level: str = "INFO"
 
