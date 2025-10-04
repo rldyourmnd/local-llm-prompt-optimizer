@@ -258,7 +258,6 @@ local-llm-prompt-optimizer/
 │   └── DEVELOPMENT.md           # Development guide
 ├── .env.example
 ├── docker-compose.yml
-├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── LICENSE
@@ -557,7 +556,6 @@ local-llm-prompt-optimizer/
 │   └── DEVELOPMENT.md           # Руководство разработчика
 ├── .env.example
 ├── docker-compose.yml
-├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── LICENSE

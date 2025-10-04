@@ -6,16 +6,16 @@
 
 ## English
 
-### 🔒 Security Commitment
+### Security Commitment
 
-At **NDDev OpenNetwork**, we take security seriously. **Local LLM Prompt Optimizer** is designed with privacy and security in mind:
+NDDev OpenNetwork security design for Local LLM Prompt Optimizer:
 
 - **100% Local Processing** - All LLM operations run locally via LM Studio
 - **No External API Calls** - Your prompts never leave your machine
 - **No Telemetry** - Zero tracking or analytics by default
 - **Open Source** - Full transparency, auditable code
 
-### 🐛 Reporting a Vulnerability
+### Reporting a Vulnerability
 
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
@@ -23,7 +23,7 @@ At **NDDev OpenNetwork**, we take security seriously. **Local LLM Prompt Optimiz
 
 To report a security vulnerability, please email:
 
-**📧 [business@nddev.tech](mailto:business@nddev.tech)**
+**Email: [business@nddev.tech](mailto:business@nddev.tech)**
 
 Include the following information:
 
@@ -40,7 +40,7 @@ Include the following information:
 - **Initial Assessment**: Within 1 week
 - **Fix & Disclosure**: Depends on severity (see below)
 
-### 🎯 Severity Levels
+### Severity Levels
 
 | Severity | Description | Response Time |
 |----------|-------------|---------------|
@@ -49,7 +49,7 @@ Include the following information:
 | **Medium** | XSS, CSRF, information disclosure | 1-2 weeks |
 | **Low** | Minor issues with limited impact | 2-4 weeks |
 
-### 🛡️ Security Best Practices
+### Security Best Practices
 
 #### For Users
 
@@ -95,7 +95,7 @@ Include the following information:
    - Security-focused code reviews for critical components
    - Automated security scanning in CI/CD
 
-### 🔐 Secure Configuration
+### Secure Configuration
 
 #### Recommended `.env` Settings
 
@@ -131,15 +131,15 @@ services:
       - db_password
 ```
 
-### 📦 Supported Versions
+### Supported Versions
 
 | Version | Supported | End of Support |
 |---------|-----------|----------------|
-| main (latest) | ✅ Yes | Active development |
-| 1.x.x | ✅ Yes | 6 months after next major release |
-| < 1.0.0 | ❌ No | Unsupported |
+| main (latest) | Yes | Active development |
+| 1.x.x | Yes | 6 months after next major release |
+| < 1.0.0 | No | Unsupported |
 
-### 🏆 Security Acknowledgments
+### Security Acknowledgments
 
 We appreciate the security research community! If you report a valid security issue, we will:
 
@@ -151,7 +151,7 @@ We appreciate the security research community! If you report a valid security is
 
 *None yet - be the first!*
 
-### 📜 Disclosure Policy
+### Disclosure Policy
 
 1. **Private Disclosure**: Report sent to business@nddev.tech
 2. **Acknowledgment**: We confirm receipt within 72 hours
@@ -160,14 +160,14 @@ We appreciate the security research community! If you report a valid security is
 5. **Public Disclosure**: Coordinated disclosure after fix is released
 6. **Credit**: We publicly thank the reporter (if desired)
 
-### 🔗 Security Resources
+### Security Resources
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [CWE Top 25](https://cwe.mitre.org/top25/)
 - [Docker Security Best Practices](https://docs.docker.com/engine/security/)
 - [FastAPI Security](https://fastapi.tiangolo.com/tutorial/security/)
 
-### 💼 Commercial Security Services
+### Commercial Security Services
 
 For enterprise security needs:
 
@@ -192,16 +192,16 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
 
 ## Русский
 
-### 🔒 Приверженность безопасности
+### Приверженность безопасности
 
-В **NDDev OpenNetwork** мы серьёзно относимся к безопасности. **Local LLM Prompt Optimizer** разработан с учётом приватности и безопасности:
+Дизайн безопасности NDDev OpenNetwork для Local LLM Prompt Optimizer:
 
 - **100% Локальная обработка** - Все LLM операции выполняются локально через LM Studio
 - **Никаких внешних API вызовов** - Ваши промпты не покидают ваш компьютер
 - **Нет телеметрии** - Никакого отслеживания или аналитики по умолчанию
 - **Open Source** - Полная прозрачность, аудируемый код
 
-### 🐛 Сообщение об уязвимости
+### Сообщение об уязвимости
 
 **Пожалуйста, НЕ сообщайте об уязвимостях через публичные GitHub issues.**
 
@@ -209,7 +209,7 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
 
 Для сообщения об уязвимости, пожалуйста, напишите на email:
 
-**📧 [business@nddev.tech](mailto:business@nddev.tech)**
+**Email: [business@nddev.tech](mailto:business@nddev.tech)**
 
 Включите следующую информацию:
 
@@ -226,7 +226,7 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
 - **Первоначальная оценка**: В течение 1 недели
 - **Исправление и раскрытие**: Зависит от серьёзности (см. ниже)
 
-### 🎯 Уровни серьёзности
+### Уровни серьёзности
 
 | Серьёзность | Описание | Время ответа |
 |-------------|----------|--------------|
@@ -235,7 +235,7 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
 | **Средняя** | XSS, CSRF, раскрытие информации | 1-2 недели |
 | **Низкая** | Незначительные проблемы с ограниченным влиянием | 2-4 недели |
 
-### 🛡️ Лучшие практики безопасности
+### Лучшие практики безопасности
 
 #### Для пользователей
 
@@ -259,7 +259,7 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
    - Используйте Docker secrets для чувствительных данных
    - Регулярно сканируйте образы на уязвимости
 
-### 📜 Политика раскрытия
+### Политика раскрытия
 
 1. **Приватное раскрытие**: Отчёт отправлен на business@nddev.tech
 2. **Подтверждение**: Мы подтверждаем получение в течение 72 часов
@@ -268,7 +268,7 @@ NDDev OpenNetwork | [nddev.tech](https://nddev.tech)
 5. **Публичное раскрытие**: Координированное раскрытие после выпуска исправления
 6. **Благодарность**: Мы публично благодарим исследователя (если желает)
 
-### 💼 Коммерческие услуги безопасности
+### Коммерческие услуги безопасности
 
 Для enterprise потребностей безопасности:
 
