@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from ...application.services import OptimizationService
-from ...infrastructure.llm import LMStudioClient
+from ...infrastructure.di import Container
 from ...domain.models import OptimizationRequest as DomainOptimizationRequest
+from ...domain.exceptions import VendorNotSupportedException, OptimizationFailedException, QuestionGenerationFailedException
 from ..schemas import (
     OptimizeRequest,
     OptimizeResponse,
@@ -12,11 +13,12 @@ from ..schemas import (
 
 router = APIRouter(prefix="/api", tags=["optimization"])
 
+container = Container()
+
 
 def get_optimization_service() -> OptimizationService:
     """Dependency injection for optimization service."""
-    llm_client = LMStudioClient()
-    return OptimizationService(llm_client)
+    return container.optimization_service()
 
 
 @router.post("/optimize", response_model=OptimizeResponse)
@@ -51,6 +53,10 @@ async def optimize_prompt(
             metadata=result.metadata
         )
 
+    except VendorNotSupportedException as e:
+        raise HTTPException(status_code=400, detail=e.message)
+    except OptimizationFailedException as e:
+        raise HTTPException(status_code=500, detail=e.message)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -80,6 +86,8 @@ async def generate_questions(
             total=len(questions)
         )
 
+    except QuestionGenerationFailedException as e:
+        raise HTTPException(status_code=500, detail=e.message)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -120,6 +128,10 @@ async def optimize_with_answers(
             metadata=result.metadata
         )
 
+    except VendorNotSupportedException as e:
+        raise HTTPException(status_code=400, detail=e.message)
+    except OptimizationFailedException as e:
+        raise HTTPException(status_code=500, detail=e.message)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
