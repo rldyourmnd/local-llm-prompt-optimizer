@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from .routes import optimization_router, health_router
 from ..infrastructure.config import settings
+from ..infrastructure.di import Container
+from ..domain.registries import VendorRegistry
 import logging
 
 # Configure logging
@@ -12,11 +14,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Initialize DI Container and Vendor Registry
+Container.initialize_vendor_registry()
+logger.info(f"Vendor registry initialized with {VendorRegistry.count()} adapters")
+
 # Create FastAPI app
 app = FastAPI(
     title="Local LLM Prompt Optimizer",
     description="Optimize prompts for different LLM vendors using local LM Studio",
-    version="1.0.2",
+    version="1.1.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
@@ -40,7 +46,7 @@ async def root():
     """Root endpoint."""
     return {
         "message": "Local LLM Prompt Optimizer API",
-        "version": "1.0.2",
+        "version": "1.1.0",
         "docs": "/api/docs",
         "health": "/health",
         "credits": {
