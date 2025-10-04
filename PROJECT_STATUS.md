@@ -5,6 +5,7 @@
 **Author**: Danil Silantyev (@Danil_Silantyev)
 **Organization**: NDDev OpenNetwork
 **Status**: ✅ **PRODUCTION READY**
+**Version**: 1.0.2
 
 ---
 
@@ -362,43 +363,51 @@ Services:
 
 ### 3. Grok Adapter ✅
 **Format**: Conversational
+**Documentation**: https://docs.x.ai
 **Features**:
 - Direct, engaging tone
-- Real-time context awareness
-- Internet culture integration
+- Real-time web and X (Twitter) search
+- 2M token context (Grok 4 Fast) or 128K (Grok 4)
+- Grok 4 Heavy for SuperGrok tier
 - Personality while staying helpful
 
-**Best For**: Current events, conversational tasks
+**Best For**: Current events, real-time information, conversational tasks
 
 ### 4. Gemini Adapter ✅
-**Format**: Structured sections
+**Format**: Structured conversational
+**Models**: 2.5 Pro (flagship with thinking mode), 2.5 Flash (best price/performance)
 **Features**:
-- Task definition
-- Processing instructions
-- Expected output format
-- Quality standards
+- Gemini 2.5 Pro: Thinking mode for advanced reasoning
+- Flash variants: Flash-Image, Flash-Live, Flash-TTS, Flash-Lite
+- 1M token context window
+- Multimodal capabilities (text, image, video, audio)
+- Agentic task support
 
-**Best For**: Multi-modal, long-context, structured data
+**Best For**: Multimodal tasks, complex reasoning, long documents
 
 ### 5. Qwen Adapter ✅
 **Format**: Structured reasoning
+**Models**: Qwen3-235B, Qwen3-30B (July 2025 builds), QwQ-32B (reasoning)
 **Features**:
-- System role definition
-- Methodology breakdown
-- Output requirements
-- Execution guidelines
+- Qwen3 generation replacing Qwen 2.5
+- Hybrid reasoning (thinking + fast modes)
+- 1M token context window
+- Excellent multilingual support (especially Chinese/Asian languages)
+- Trained on 36T tokens
 
-**Best For**: Multilingual, math, reasoning
+**Best For**: Multilingual tasks, mathematical reasoning, code, logical problems
 
 ### 6. DeepSeek Adapter ✅
 **Format**: Technical structured
+**Models**: V3.2-Exp (Sep 29, 2025), R1-0528 (May 28, 2025)
 **Features**:
-- Objective specification
-- Technical specifications
-- Implementation approach
-- Deliverables and execution guidelines
+- V3.2-Exp: Dual thinking/non-thinking modes
+- R1-0528: Advanced reasoning model
+- 128K context window with DSA sparse attention
+- MIT-licensed
+- Best-in-class code generation
 
-**Best For**: Code generation, system design, debugging
+**Best For**: Code generation, algorithm optimization, system design, technical documentation
 
 ---
 
@@ -604,4 +613,5 @@ This is a **complete, professional, production-ready application** with:
 
 ---
 
-*Last Updated: 2025-01-04*
+*Last Updated: 2025-10-04*
+*Version: 1.0.2*

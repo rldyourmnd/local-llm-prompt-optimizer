@@ -3,7 +3,11 @@ from ..models import VendorType
 
 
 class QwenAdapter(IVendorAdapter):
-    """Qwen-specific prompt optimization (Alibaba Qwen3)."""
+    """Qwen-specific prompt optimization (Alibaba Qwen3).
+
+    Latest generation: Qwen3 (July 2025 builds) replaces Qwen 2.5.
+    Reasoning: QwQ-32B for advanced logical tasks.
+    """
 
     @property
     def vendor_type(self) -> VendorType:
@@ -20,9 +24,12 @@ CRITICAL RULES:
 5. **Multilingual Excellence**: Qwen excels at Chinese/Asian languages
 
 Qwen3 best practices:
-- Qwen3 has hybrid reasoning (thinking + fast modes) - it chooses automatically
+- Qwen3 (July 2025 builds): New generation replacing Qwen 2.5
+- Models: qwen3-235b (flagship), qwen3-30b (cost-efficient)
+- QwQ-32B: Specialized reasoning model for complex logical tasks
+- Hybrid reasoning (thinking + fast modes) - chooses mode automatically
 - Trained on 36T tokens - strong general knowledge
-- Excellent multilingual support, especially Chinese
+- Excellent multilingual support, especially Chinese/Asian languages
 - 1M token context window
 - Strong at math, code, and logical reasoning
 - Structured instructions with clear steps work best
@@ -43,8 +50,9 @@ Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
         return (
-            "Enhanced for Qwen3: Hybrid reasoning optimization, multilingual support (especially Chinese), "
-            "systematic problem-solving. Works best with structured, step-by-step instructions."
+            "Enhanced for Qwen3 (July 2025 builds): New generation with hybrid reasoning, "
+            "multilingual excellence (especially Chinese/Asian languages), systematic problem-solving. "
+            "QwQ-32B available for advanced reasoning tasks."
         )
 
     def get_metadata(self) -> dict:

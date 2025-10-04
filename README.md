@@ -1,5 +1,11 @@
 # Local LLM Prompt Optimizer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-brightgreen.svg)](https://www.docker.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+[![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-contributor%20covenant-purple.svg)](./CODE_OF_CONDUCT.md)
+
 **[English](#english) | [Русский](#russian)**
 
 ---
@@ -17,7 +23,7 @@
 Local LLM Prompt Optimizer is a privacy-focused tool for optimizing prompts across multiple LLM vendors using local AI processing. All computations run through LM Studio on your machine—no external API calls or data transmission.
 
 **License:** MIT
-**Version:** 1.0.0
+**Version:** 1.0.2
 **Language:** Python 3.11+, TypeScript
 **Architecture:** Domain-Driven Design with microservices
 
@@ -38,10 +44,10 @@ Local LLM Prompt Optimizer is a privacy-focused tool for optimizing prompts acro
 |--------|--------|----------------------|
 | OpenAI | GPT-4o, o1, o3-mini, o4-mini | Structured instructions, few-shot learning, chain-of-thought |
 | Claude | 3.7 Sonnet, 3.5 Haiku | XML tags, thinking blocks, document structure |
-| Grok | Grok 4, Grok 4 Fast, Code Fast 1 | Conversational tone, real-time context |
-| Gemini | 2.5 Pro, 2.5 Flash | Multi-step reasoning, structured formats, long-context |
-| Qwen | Qwen3-235B (July 2025), Qwen3-30B, QwQ-32B | Multilingual, mathematical reasoning, technical precision |
-| DeepSeek | V3.2-Exp (Sep 2025), R1-0528 (May 2025) | Code generation, system design, technical documentation |
+| Grok | Grok 4, Grok 4 Fast, Grok 4 Heavy | Conversational tone, real-time web/X search ([docs.x.ai](https://docs.x.ai)) |
+| Gemini | 2.5 Pro (thinking), 2.5 Flash, Flash-Image/Live/TTS, Flash-Lite | Multi-step reasoning, multimodal, thinking mode |
+| Qwen | Qwen3-235B, Qwen3-30B (July 2025), QwQ-32B (reasoning) | Multilingual (Chinese/Asian), hybrid reasoning, math |
+| DeepSeek | V3.2-Exp (Sep 29, 2025), R1-0528 (May 28, 2025) | Code generation, thinking/non-thinking modes, DSA attention |
 
 ### Architecture
 

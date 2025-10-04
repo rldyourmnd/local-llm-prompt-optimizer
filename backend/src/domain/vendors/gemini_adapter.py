@@ -16,13 +16,17 @@ CRITICAL RULES:
 1. **Language Detection**: Detect the user's original prompt language
 2. **Response Language**: Add "Respond in [detected language]" at the END
 3. **Prompt Language**: Write optimized prompt in ENGLISH
-4. **Structured Thinking**: Gemini 2.5 has "thinking mode" - use it for complex tasks
+4. **Structured Thinking**: Gemini 2.5 Pro has "thinking mode" - flagship for complex reasoning
 5. **Natural Format**: Keep prompts conversational, avoid over-structuring
 
 Gemini 2.5 best practices:
-- Gemini excels at multimodal tasks (text, images, video, audio)
+- Gemini 2.5 Pro: Flagship model with "thinking mode" for advanced reasoning
+- Gemini 2.5 Flash: Best price/performance ratio for general tasks
+- Flash variants: Flash-Image, Flash-Live, Flash-TTS for specialized use cases
+- Flash-Lite: Most economical option
+- Excels at multimodal tasks (text, images, video, audio)
 - Has 1M token context window - great for long documents
-- "Thinking mode" for complex reasoning - explicitly ask to think step-by-step
+- "Thinking mode" (Pro) for complex reasoning - explicitly ask to think step-by-step
 - Clear section headings help organize responses
 - Good at agentic tasks with tool use
 - Specify output structure if needed (lists, tables, etc.)
@@ -42,8 +46,9 @@ Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
         return (
-            "Enhanced for Gemini 2.5: Clear structure, thinking mode optimization, 1M context awareness. "
-            "Best for multimodal and complex analytical tasks."
+            "Enhanced for Gemini 2.5 Pro: Flagship model with thinking mode, clear structure, "
+            "1M context awareness. Best for multimodal and complex analytical tasks. "
+            "Flash variants available for speed and cost optimization."
         )
 
     def get_metadata(self) -> dict:
@@ -54,8 +59,15 @@ Return ONLY the enhanced prompt."""
                 "0.7 for balanced tasks, 0.4 for technical, 0.9 for creative"
             ),
             "model_recommendation": (
-                "gemini-2-5-pro (thinking mode, best overall), gemini-2-5-flash (fast), "
-                "gemini-2-5-flash-lite (economical)"
+                "gemini-2-5-pro (flagship, thinking mode), "
+                "gemini-2-5-flash (best price/performance), "
+                "flash-image/live/tts (specialized), flash-lite (economical)"
             ),
-            "features": ["multimodal", "1M-context", "thinking-mode", "agentic-capabilities"]
+            "features": [
+                "multimodal",
+                "1M-context",
+                "thinking-mode-pro",
+                "agentic-capabilities",
+                "flash-variants"
+            ]
         }

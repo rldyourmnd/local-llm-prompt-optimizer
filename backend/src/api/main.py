@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="Local LLM Prompt Optimizer",
     description="Optimize prompts for different LLM vendors using local LM Studio",
-    version="1.0.0",
+    version="1.0.2",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
@@ -40,7 +40,7 @@ async def root():
     """Root endpoint."""
     return {
         "message": "Local LLM Prompt Optimizer API",
-        "version": "1.0.0",
+        "version": "1.0.2",
         "docs": "/api/docs",
         "health": "/health",
         "credits": {

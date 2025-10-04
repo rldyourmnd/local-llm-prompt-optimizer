@@ -3,7 +3,10 @@ from ..models import VendorType
 
 
 class GrokAdapter(IVendorAdapter):
-    """Grok-specific prompt optimization (xAI Grok 4)."""
+    """Grok-specific prompt optimization (xAI Grok 4).
+
+    Documentation: https://docs.x.ai
+    """
 
     @property
     def vendor_type(self) -> VendorType:
@@ -44,7 +47,7 @@ Return ONLY the enhanced prompt."""
     def get_enhancement_notes(self) -> str:
         return (
             "Enhanced for Grok 4: Real-time information focus, web/X search integration, conversational tone. "
-            "Optimized for current events and trending topics."
+            "Optimized for current events and trending topics. Documentation: https://docs.x.ai"
         )
 
     def get_metadata(self) -> dict:

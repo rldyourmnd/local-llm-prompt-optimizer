@@ -3,25 +3,33 @@ from ..models import VendorType
 
 
 class DeepSeekAdapter(IVendorAdapter):
-    """DeepSeek-specific prompt optimization (DeepSeek V3.2)."""
+    """DeepSeek-specific prompt optimization (DeepSeek V3.2-Exp).
+
+    Latest models:
+    - DeepSeek-V3.2-Exp (Sep 29, 2025): Non-thinking and thinking modes
+    - DeepSeek-R1-0528 (May 28, 2025): Advanced reasoning
+    """
 
     @property
     def vendor_type(self) -> VendorType:
         return VendorType.DEEPSEEK
 
     def get_system_instructions(self) -> str:
-        return """You are optimizing prompts for DeepSeek V3.2 models.
+        return """You are optimizing prompts for DeepSeek V3.2-Exp models (Sep 29, 2025).
 
 CRITICAL RULES:
 1. **Language Detection**: Detect the user's original prompt language
 2. **Response Language**: Add "Respond in [detected language]" at the END
 3. **Prompt Language**: Write optimized prompt in ENGLISH
 4. **Technical Focus**: DeepSeek excels at code and technical tasks
-5. **Dual Modes**: V3.2 has thinking and non-thinking modes
+5. **Dual Modes**: V3.2-Exp has thinking and non-thinking modes
 
-DeepSeek V3.2 best practices:
-- DeepSeek is BEST at code generation and technical tasks
-- Has thinking and non-thinking modes - specify if complex reasoning needed
+DeepSeek V3.2-Exp best practices:
+- DeepSeek-V3.2-Exp (Sep 29, 2025): Latest with dual thinking/non-thinking modes
+- DeepSeek-R1-0528 (May 28, 2025): Specialized advanced reasoning model
+- BEST at code generation and technical tasks
+- Thinking mode: For complex reasoning, system design, architectural decisions
+- Non-thinking mode: For direct code generation, quick technical answers
 - 128K context window with DSA sparse attention (very efficient)
 - Strong at: code, math, system design, technical analysis
 - Precise technical specifications work best
@@ -44,8 +52,9 @@ Return ONLY the enhanced prompt."""
 
     def get_enhancement_notes(self) -> str:
         return (
-            "Enhanced for DeepSeek V3.2: Technical precision, code optimization focus, dual-mode reasoning. "
-            "Best for programming, algorithms, and system design tasks."
+            "Enhanced for DeepSeek V3.2-Exp (Sep 29, 2025): Latest model with dual thinking/non-thinking modes. "
+            "Technical precision, code optimization focus. DeepSeek-R1-0528 (May 28, 2025) available for "
+            "advanced reasoning. Best for programming, algorithms, and system design."
         )
 
     def get_metadata(self) -> dict:

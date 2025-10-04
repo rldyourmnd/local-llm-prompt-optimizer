@@ -10,7 +10,7 @@ Thank you for your interest in contributing to **Local LLM Prompt Optimizer**!
 
 We welcome contributions from the community and are grateful for any help—whether it's reporting bugs, suggesting features, improving documentation, or submitting code.
 
-### 🤝 How to Contribute
+### How to Contribute
 
 #### 1. Report Bugs
 
@@ -43,7 +43,7 @@ Documentation is crucial! You can:
 
 **Before starting major work, please open an issue to discuss your approach.**
 
-### 📋 Development Workflow
+### Development Workflow
 
 #### Fork & Clone
 
@@ -100,7 +100,7 @@ Then open a Pull Request on GitHub with:
 - **Reference to related issues** (e.g., "Fixes #123")
 - **Screenshots** if UI changes
 
-### 📝 Commit Messages
+### Commit Messages
 
 We use **Conventional Commits** format:
 
@@ -133,7 +133,7 @@ docs(readme): update vendor models to October 2025 versions
 chore(deps): bump fastapi from 0.104 to 0.105
 ```
 
-### 🎨 Code Style
+### Code Style
 
 #### Python
 
@@ -161,7 +161,7 @@ chore(deps): bump fastapi from 0.104 to 0.105
 - **Comments** for complex logic
 - **Keep functions small** - single responsibility
 
-### ✅ Pull Request Checklist
+### Pull Request Checklist
 
 Before submitting a PR, ensure:
 
@@ -173,7 +173,7 @@ Before submitting a PR, ensure:
 - [ ] No merge conflicts with `main`
 - [ ] PR description is clear and complete
 
-### 🏗️ Architecture Guidelines
+### Architecture Guidelines
 
 - **Backend**: Follow Domain-Driven Design (DDD) principles
   - `domain/` - Core business logic, models, interfaces
@@ -191,7 +191,7 @@ Before submitting a PR, ensure:
   - Keep conversation state in `context.user_data`
   - Isolate per-user state with `per_chat=True, per_user=True`
 
-### 🧪 Testing Guidelines
+### Testing Guidelines
 
 - **Write tests** for new features and bug fixes
 - **Unit tests** for business logic
@@ -211,14 +211,14 @@ pytest tests/test_optimization_service.py
 pytest --cov=src tests/
 ```
 
-### 🌍 Internationalization
+### Internationalization
 
 - **README.md** must have EN/RU sections
 - **Other documentation** should have EN/RU if possible
 - **UI messages** should support multiple languages
 - **Error messages** should be clear in English
 
-### 💼 Commercial Contributions
+### Commercial Contributions
 
 If your contribution is for commercial use or you need custom development:
 
@@ -229,14 +229,14 @@ If your contribution is for commercial use or you need custom development:
   - Enterprise support
   - Training and consulting
 
-### 📧 Communication
+### Communication
 
 - **Issues** - Bug reports and feature requests
 - **Pull Requests** - Code contributions
 - **Telegram** - [@DevsOpenNetwork](https://t.me/DevsOpenNetwork) for community discussion
 - **Email** - [business@nddev.tech](mailto:business@nddev.tech) for commercial inquiries
 
-### 📜 License
+### License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
 
@@ -246,7 +246,7 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 **Thank you for contributing to Local LLM Prompt Optimizer!**
 
-Built with ❤️ by NDDev OpenNetwork
+Built by NDDev OpenNetwork
 
 </div>
 
@@ -258,7 +258,7 @@ Built with ❤️ by NDDev OpenNetwork
 
 Мы приветствуем вклад сообщества и благодарны за любую помощь — будь то сообщения об ошибках, предложения функций, улучшение документации или отправка кода.
 
-### 🤝 Как внести вклад
+### Как внести вклад
 
 #### 1. Сообщить об ошибке
 
@@ -291,7 +291,7 @@ Built with ❤️ by NDDev OpenNetwork
 
 **Перед началом крупной работы откройте issue для обсуждения подхода.**
 
-### 📋 Процесс разработки
+### Процесс разработки
 
 #### Fork & Clone
 
@@ -348,7 +348,7 @@ git push origin feature/your-feature-name
 - **Ссылкой на связанные issues** (например, "Fixes #123")
 - **Скриншотами** при изменениях UI
 
-### 📝 Commit Messages
+### Commit Messages
 
 Мы используем формат **Conventional Commits**:
 
@@ -381,7 +381,7 @@ docs(readme): обновлены модели вендоров до версий
 chore(deps): обновлён fastapi с 0.104 до 0.105
 ```
 
-### ✅ Чек-лист Pull Request
+### Чек-лист Pull Request
 
 Перед отправкой PR убедитесь:
 
@@ -393,7 +393,7 @@ chore(deps): обновлён fastapi с 0.104 до 0.105
 - [ ] Нет конфликтов с `main`
 - [ ] Описание PR чёткое и полное
 
-### 📜 Лицензия
+### Лицензия
 
 Внося вклад, вы соглашаетесь, что ваши материалы будут лицензированы под MIT License.
 
@@ -403,6 +403,6 @@ chore(deps): обновлён fastapi с 0.104 до 0.105
 
 **Спасибо за вклад в Local LLM Prompt Optimizer!**
 
-Сделано с ❤️ командой NDDev OpenNetwork
+Сделано командой NDDev OpenNetwork
 
 </div>
