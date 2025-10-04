@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
 from ...application.services import OptimizationService
-from ...infrastructure.di import Container
 from ...domain.models import OptimizationRequest as DomainOptimizationRequest
 from ...domain.exceptions import VendorNotSupportedException, OptimizationFailedException, QuestionGenerationFailedException
 from ..schemas import (
@@ -13,11 +12,10 @@ from ..schemas import (
 
 router = APIRouter(prefix="/api", tags=["optimization"])
 
-container = Container()
-
 
 def get_optimization_service() -> OptimizationService:
     """Dependency injection for optimization service."""
+    from ..main import container
     return container.optimization_service()
 
 

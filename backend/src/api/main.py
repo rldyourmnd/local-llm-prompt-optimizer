@@ -15,6 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Initialize DI Container and Vendor Registry
+container = Container()
 Container.initialize_vendor_registry()
 logger.info(f"Vendor registry initialized with {VendorRegistry.count()} adapters")
 
@@ -26,6 +27,9 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
+
+# Attach container to app for testing
+app.container = container
 
 # CORS middleware
 app.add_middleware(
