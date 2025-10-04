@@ -62,10 +62,16 @@ jobs:
             backend/flake8-report/
             backend/pylint-report.txt
 
+  # To enable SonarCloud scanning:
+  # 1. Sign up at https://sonarcloud.io
+  # 2. Create a new project and link it to this repository
+  # 3. Add SONAR_TOKEN secret to GitHub repository settings
+  # 4. Update sonar.projectKey and sonar.organization below
   sonarcloud-scan:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    continue-on-error: true  # Allow failure if SONAR_TOKEN is not configured
 
     steps:
       - name: Checkout repository
